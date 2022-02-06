@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
-import { IPropertyBase } from '../model/IpropertyBase';
+import { IPropertyBase } from '../model/IPropertyBase';
 import { Property } from '../model/property';
 // import { IPropertyBase } from './model/IpropertyBase';
 // import { Property } from './model/property';
@@ -23,11 +23,11 @@ export class HousingService {
       })
     );
   }
-  getAllProperties(sellRent?:number):Observable<IPropertyBase[]>
+  getAllProperties(sellRent?:number):Observable<Property[]>
   {
     return this.http.get('data/properties.json').pipe(
       map(data=>{
-         const propertiesArray:Array<IPropertyBase>=[];
+         const propertiesArray:Array<Property>=[];
          const localProperties=JSON.parse(localStorage.getItem('newProp'));
           if(localProperties)
           {
@@ -63,6 +63,7 @@ export class HousingService {
          return propertiesArray;
       })
     );
+
   }
   addProperty(property:Property)
   {

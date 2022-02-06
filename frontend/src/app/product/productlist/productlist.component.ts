@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 
-import { IPropertyBase } from 'src/app/model/IpropertyBase';
+import { IPropertyBase } from 'src/app/model/IPropertyBase';
 import { HousingService } from 'src/app/services/housing.service';
 
 

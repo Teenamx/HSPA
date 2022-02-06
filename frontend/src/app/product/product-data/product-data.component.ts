@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IPropertyBase } from 'src/app/model/IpropertyBase';
-
+import { IPropertyBase } from 'src/app/model/IPropertyBase';
 
 @Component({
   selector: 'app-product-data',
