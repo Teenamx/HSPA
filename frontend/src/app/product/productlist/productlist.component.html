@@ -1,5 +1,19 @@
+<label class="p-0 m-0">City:&nbsp;</label>
+<input [(ngModel)]='City'>
+<button type="button" (click)="onCityFilter()">Search</button>
+<button type="button" (click)="onCityFilterClear()">Clear</button> &nbsp;
+<label>Sort by &nbsp;</label>
+<select [(ngModel)]="SortByParam">
+  <option value="City">City</option>
+  <option value="Price">Price</option>
+</select>
+<button type="button" (click)="onSortDirection()">
+  <i *ngIf="SortDirection==='asc'" class="fas fa-sort-alpha-down"></i>
+  <i *ngIf="SortDirection==='desc'" class="fas fa-sort-alpha-up"></i>
+</button>
 <div class="row">
-  <div class="shadow-lg col-sm-4 p-3" *ngFor="let property of Properties">
+
+      <div class="shadow-lg col-sm-4 p-3" *ngFor="let property of Properties| filter:SearchCity:'City'|sort:[SortByParam,SortDirection]">
 <app-product-data [property]="property"></app-product-data>
 </div>
 </div>

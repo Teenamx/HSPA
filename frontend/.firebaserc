@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "hspa-40470"
+  },
+  "targets": {
+    "hspa-40470": {
+      "hosting": {
+        "frontend": [
+          "hspa-40470"
+        ]
+      }
+    }
+  }
+}

@@ -18,7 +18,10 @@ export class ProductlistComponent implements OnInit {
   Properties:Array<IPropertyBase>;
   constructor(private route:ActivatedRoute ,private housingService:HousingService) { }
   sellRent=1;
-
+  City='';
+  SearchCity='';
+  SortByParam='';
+  SortDirection='asc';
   ngOnInit(): void {
     if(this.route.snapshot.url.toString())
     {
@@ -41,6 +44,25 @@ export class ProductlistComponent implements OnInit {
       }
 
     )
+  }
+  onCityFilter()
+  {
+    this.SearchCity=this.City;
+  }
+  onCityFilterClear()
+  {
+    this.SearchCity='';
+    this.City='';
+  }
+
+  onSortDirection()
+  {
+    if(this.SortDirection==='desc')
+    {
+      this.SortDirection='asc';
+    }
+    else
+      this.SortDirection='desc';
   }
 
 }
