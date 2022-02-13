@@ -19,6 +19,7 @@ export class AddPropertyComponent implements OnInit {
  //@ViewChild('form') addPropertyForm:NgForm;
  addPropertyForm:FormGroup;
  nextClicked:Boolean;
+ CityList:string[];
  @ViewChild('formTabs') formTabs?: TabsetComponent;
  propertyView:IPropertyBase={
    Id:null,
@@ -29,7 +30,7 @@ export class AddPropertyComponent implements OnInit {
    FType:null,
    BHK:null,
    BuiltArea:null,
-   City:null,
+   City:'',
    RTM:null
  };
  property=new Property();
@@ -46,6 +47,10 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit(): void {
     this.createAddPropertyForm();
+    this.housingService.getAllCities().subscribe(data=>{
+     this.CityList=data;
+      console.log(data);
+    })
   }
   createAddPropertyForm()
   {
