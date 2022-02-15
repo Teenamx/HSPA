@@ -19,7 +19,7 @@ export class AddPropertyComponent implements OnInit {
  //@ViewChild('form') addPropertyForm:NgForm;
  addPropertyForm:FormGroup;
  nextClicked:Boolean;
- CityList:string[];
+ CityList:any[];
  @ViewChild('formTabs') formTabs?: TabsetComponent;
  propertyView:IPropertyBase={
    Id:null,
