@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Threading.Tasks;
+using WebAPI.Interface;
 using WebAPI.Models;
 
 namespace WebAPI.Data.Repo
@@ -30,9 +31,5 @@ namespace WebAPI.Data.Repo
             return await dc.Cities.ToListAsync();
         }
 
-        public async Task<bool> SaveAsync()
-        {
-            return await dc.SaveChangesAsync() > 0;
-        }
     }
 }

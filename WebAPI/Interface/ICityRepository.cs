@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Models;
 
-namespace WebAPI.Data.Repo
+namespace WebAPI.Interface
 {
    public interface ICityRepository
     {
@@ -13,6 +13,5 @@ namespace WebAPI.Data.Repo
 
         void DeleteCity(int cityId);
 
-        Task<bool> SaveAsync();
     }
 }
