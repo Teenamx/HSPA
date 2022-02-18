@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-
+using System;
+using System.Linq;
 using System.Threading.Tasks;
-
-
+using WebAPI.Dtos;
 using WebAPI.Interface;
 using WebAPI.Models;
 
@@ -27,7 +27,12 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetCities()
         {
             var cities = await uow.cityRepository.GetCitiesAsync();
-            return Ok(cities);
+            var citiesDto = from city in cities
+                            select new CityDto()
+                            {
+                                Name = city.Name
+                            };
+            return Ok(citiesDto);
         }
         [HttpGet("{id}")]
         public string Get(int id)
@@ -38,8 +43,14 @@ namespace WebAPI.Controllers
        
         [HttpPost("post")]
        
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
+            var city = new City
+            {
+                Name = cityDto.Name,
+                lastUpdatedBy = 1,
+                LastUpdatedOn = DateTime.Now
+            };
 
             uow.cityRepository.AddCity(city);
             await uow.SaveAsync();
