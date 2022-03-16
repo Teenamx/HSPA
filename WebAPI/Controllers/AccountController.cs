@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Dtos;
 using WebAPI.Errors;
+using WebAPI.Extensions;
 using WebAPI.Interface;
 using WebAPI.Models;
 
@@ -52,8 +53,16 @@ namespace WebAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(LoginReqDto loginReq)
         {
+            ApiError apiError = new ApiError();
+            if(loginReq.UserName.IsEmpty() || loginReq.Password.IsEmpty())
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "UserName or password cannot be blank";
+                return BadRequest(apiError);
+
+            }
             if (await uow.userRepository.UserAlreadyExists(loginReq.UserName))
-                return BadRequest("User already exists,please try something else");
+            return BadRequest("User already exists,please try something else");
             uow.userRepository.Register(loginReq.UserName, loginReq.Password);
             await uow.SaveAsync();
             return StatusCode(201);
