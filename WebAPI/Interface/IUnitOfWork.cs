@@ -9,6 +9,8 @@ namespace WebAPI.Interface
     {
         ICityRepository cityRepository { get; }
 
+        IUserRepository userRepository { get; }
+
         Task<bool> SaveAsync();
      }
 }

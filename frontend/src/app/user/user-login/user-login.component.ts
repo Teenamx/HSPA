@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserForLogin } from 'src/app/model/user';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -18,8 +19,26 @@ export class UserLoginComponent implements OnInit {
   onLogin(loginForm:NgForm)
   {
     console.log(loginForm.value);
-     const token=this.authService.authUser(loginForm.value);
-     if(token){
+
+    // const token=this.authService.authUser(loginForm.value);
+    this.authService.authUser(loginForm.value).subscribe(
+      (response:UserForLogin)=>{
+        const user=response;
+        console.log(response);
+        localStorage.setItem('token',user.token);
+        localStorage.setItem('userName',user.userName);
+        this.alertify.success("Login Successful");
+        this.router.navigate(['/']);
+      }
+     /*  ,
+      error=>{
+       console.log(error);
+       this.alertify.error(error.error);
+      } */
+
+    )
+
+    /*  if(token){
       localStorage.setItem('token',token.userName)
       this.alertify.success("Login Successful");
       this.router.navigate(['/']);
@@ -27,7 +46,7 @@ export class UserLoginComponent implements OnInit {
 
 
        else
-       this.alertify.error("Username or password wrong");
+       this.alertify.error("Username or password wrong"); */
   }
 
 }

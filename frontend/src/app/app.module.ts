@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import {Routes,RouterModule} from '@angular/router'
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +25,7 @@ import { PropertyDetailResolverService } from './product/property-detail/propert
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SortPipe } from './Pipes/sort.pipe';
+import { HttperrorInterceptorService } from './services/httperror-interceptor.service';
 
 const appRoutes:Routes=[
   {path:'',component:ProductlistComponent},
@@ -63,9 +64,9 @@ const appRoutes:Routes=[
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxGalleryModule 
+    NgxGalleryModule
   ],
-  providers: [UserService,AlertifyService,AuthService,PropertyDetailResolverService],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:HttperrorInterceptorService,multi:true},UserService,AlertifyService,AuthService,PropertyDetailResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

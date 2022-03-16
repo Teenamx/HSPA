@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { User } from 'src/app/model/user';
+import { UserForRegistration } from 'src/app/model/user';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,10 +13,10 @@ import { UserService } from 'src/app/services/user.service';
 export class UserRegisterComponent implements OnInit {
 
   registrationForm: FormGroup;
-  user:User;
+  user:UserForRegistration;
   userSubmitted:boolean;
   constructor(private fb:FormBuilder,
-    private userService:UserService,
+    private authService:AuthService,
     private alertify:AlertifyService) { }
 
   ngOnInit(): void {
@@ -49,19 +50,34 @@ export class UserRegisterComponent implements OnInit {
     {
     console.log(this.registrationForm);
    // this.user=Object.assign(this.user,this.registrationForm.value);
-    this.userService.addUser(this.userData());
-    this.userSubmitted=false;
-    this.registrationForm.reset();
+    this.authService.registerUser(this.userData()).subscribe(()=>
+    {
+      this.onReset();
      this.alertify.success("congrats, you are successfully registered");
     }
-    else
+   /*  ,
+    error=>{
+      console.log(error);
+      this.alertify.error(error.error);
+    } */
+
+    );
+
+   }
+
+   /*  else
     {
       this.alertify.error("Kindly provide required fields");
 
-    }
+    } */
    // localStorage.setItem('Users',JSON.stringify(this.user));
   }
-  userData():User
+  onReset()
+  {
+    this.userSubmitted=false;
+    this.registrationForm.reset();
+  }
+  userData():UserForRegistration
   {
     return this.user={
      userName:this.userName.value,

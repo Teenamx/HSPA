@@ -1,5 +1,7 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,8 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CityController : ControllerBase
+    [Authorize]
+    public class CityController : BaseController
     {
        
       
@@ -32,8 +33,10 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
+            throw new UnauthorizedAccessException();
             var cities = await uow.cityRepository.GetCitiesAsync();
 
             var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
@@ -80,7 +83,47 @@ namespace WebAPI.Controllers
             await uow.SaveAsync();
             return Ok(id);
         }
-        
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCity(int id,CityDto cityDto)
+        {
+            if (id != cityDto.Id)
+                return BadRequest("Update are not allowed");
+            var cityFromDb = await uow.cityRepository.FindCity(id);
+            if (cityFromDb == null)
+                return BadRequest("Update are not allowed");
+            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+          
+            mapper.Map(cityDto, cityFromDb);
+            throw new Exception("Some unknown error occured");
+            await uow.SaveAsync();
+            return StatusCode(200);
+          
+        }
+        [HttpPut("updateCityName/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityNameUpdateDto cityDto)
+        {
+            
+            var cityFromDb = await uow.cityRepository.FindCity(id);
+            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            mapper.Map(cityDto, cityFromDb);
+            await uow.SaveAsync();
+            return StatusCode(200);
+
+        }
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateCityPatch(int id,JsonPatchDocument<City> cityToPatch)
+        {
+            var cityFromDb = await uow.cityRepository.FindCity(id);
+            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            cityToPatch.ApplyTo(cityFromDb, ModelState);
+            await uow.SaveAsync();
+            return StatusCode(200);
+
+        }
 
         //[HttpPost("add")]
         ////api/city/add?cityName=Miami
