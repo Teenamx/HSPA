@@ -31,7 +31,7 @@ namespace WebAPI.Errors
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            return JsonSerializer.Serialize(this,options);
+            return JsonSerializer.Serialize(this, options);
         }
 
     }

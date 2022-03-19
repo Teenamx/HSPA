@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
-            throw new UnauthorizedAccessException();
+           
             var cities = await uow.cityRepository.GetCitiesAsync();
 
             var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> AddCity(CityDto cityDto)
         {
             var city = mapper.Map<City>(cityDto);
-            city.lastUpdatedBy = 1;
+            city.LastUpdatedBy = 1;
             city.LastUpdatedOn =DateTime.Now;
             //var city = new City
             //{
@@ -92,11 +92,11 @@ namespace WebAPI.Controllers
             var cityFromDb = await uow.cityRepository.FindCity(id);
             if (cityFromDb == null)
                 return BadRequest("Update are not allowed");
-            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedBy = 1;
             cityFromDb.LastUpdatedOn = DateTime.Now;
           
             mapper.Map(cityDto, cityFromDb);
-            throw new Exception("Some unknown error occured");
+          
             await uow.SaveAsync();
             return StatusCode(200);
           
@@ -106,7 +106,7 @@ namespace WebAPI.Controllers
         {
             
             var cityFromDb = await uow.cityRepository.FindCity(id);
-            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedBy = 1;
             cityFromDb.LastUpdatedOn = DateTime.Now;
             mapper.Map(cityDto, cityFromDb);
             await uow.SaveAsync();
@@ -117,7 +117,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> UpdateCityPatch(int id,JsonPatchDocument<City> cityToPatch)
         {
             var cityFromDb = await uow.cityRepository.FindCity(id);
-            cityFromDb.lastUpdatedBy = 1;
+            cityFromDb.LastUpdatedBy = 1;
             cityFromDb.LastUpdatedOn = DateTime.Now;
             cityToPatch.ApplyTo(cityFromDb, ModelState);
             await uow.SaveAsync();

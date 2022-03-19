@@ -25,7 +25,7 @@
           </div>
           <div class=" form-group col-12">
             <p>BHK</p>
-            <div class="btn-group" btnRadioGroup [(ngModel)]="propertyView.BHK" name="BHK"  formControlName="BHK">
+            <div class="btn-group" btnRadioGroup [(ngModel)]="propertyView.bhk" name="BHK"  formControlName="BHK">
               <label *ngFor="let bhk of [1,2,3,4]" class="btn btn-outline-primary mr-2" btnRadio={{bhk}}
               role="button" tabindex="0" name="BHK" >{{bhk}}</label>
 
@@ -37,7 +37,7 @@
 
             <div class=" form-group col-12">
               <p>Property Type</p>
-              <div class="btn-group" btnRadioGroup formControlName="PType" [(ngModel)]="propertyView.PType">
+              <div class="btn-group" btnRadioGroup formControlName="PType" [(ngModel)]="propertyView.propertyType">
                 <label *ngFor="let pType of propertyTypes" class="btn btn-outline-primary mr-2" btnRadio={{pType}}
                 role="button" tabindex="0" name="PropType">{{pType}}</label>
 
@@ -48,15 +48,15 @@
           </div>
           <div class=" form-group col-12">
             <p>Furnishing Type</p>
-            <div class="btn-group" btnRadioGroup [(ngModel)]="propertyView.FType" formControlName="FType" >
-              <label *ngFor="let fType of furnishType" class="btn btn-outline-primary mr-2" btnRadio={{fType}}
-              role="button" tabindex="0" name="SellRent">{{fType}}</label>
+            <div class="btn-group" btnRadioGroup [(ngModel)]="propertyView.furnishingType" formControlName="FType" >
+              <label *ngFor="let fType of furnishType" class="btn btn-outline-primary mr-2" btnRadio={{furnishType}}
+              role="button" tabindex="0" name="SellRent">{{furnishType}}</label>
 
             </div>
             <div class="error-block" *ngIf="FType.invalid && nextClicked">
               Please select furnishing type
             </div>
-        </div>
+          </div>
       <!--     <div class="form-group col-12">
             <label for="name">in Building/Society/Project</label>
             <input type="text" class=" form-control" #propName="ngModel" ngModel name="name"
@@ -71,7 +71,7 @@
             <input type="text" class="form-control"
             ngModel
             formControlName="Name"
-            [(ngModel)]="propertyView.Name">
+            [(ngModel)]="propertyView">
             <div class="error-block"
                   *ngIf="Name.invalid && (nextClicked || Name.touched)">
                     Please select building, society or project name
@@ -79,7 +79,7 @@
           </div>
            <div class="form-group col-12">
             <label for="city">City</label>
-            <select  class=" form-control" [(ngModel)]="propertyView.City" name="City"  formControlName="City" >
+            <select  class=" form-control" [(ngModel)]="propertyView.city" name="City"  formControlName="City" >
               <option selected value="">--Select City--</option>
               <option *ngFor="let city of CityList" value="{{city.id}}">{{city.name}}</option>
               </select>
@@ -99,7 +99,7 @@
           <div class="form-group col-12">
             <label *ngIf="SellRent.value==1">Price (in USD)</label>
             <label *ngIf="SellRent.value==2">Rent (in USD)</label>
-            <input type="text" class="form-control" formControlName="Price" [(ngModel)]="propertyView.Price">
+            <input type="text" class="form-control" formControlName="Price" [(ngModel)]="propertyView.price">
          <div class="error-block" *ngIf="Price.invalid && (nextClicked || Price.touched)">
           Please select
           <span *ngIf="SellRent.value==1;else ShowRent">Price</span>
@@ -120,7 +120,7 @@
         </div>
           <div class="form-group col-12">
             <label>Built Area (in Sqr Feet)</label>
-            <input type="text" class="form-control" [(ngModel)]="propertyView.BuiltArea" formControlName="BuiltArea" >
+            <input type="text" class="form-control" [(ngModel)]="propertyView.builtArea" formControlName="BuiltArea" >
             <div class="error-block"
                     *ngIf="BuiltArea.invalid && nextClicked">
                       Please select built up area

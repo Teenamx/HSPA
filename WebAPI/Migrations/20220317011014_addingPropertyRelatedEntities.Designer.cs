@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220317011014_addingPropertyRelatedEntities")]
+    partial class addingPropertyRelatedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,7 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -51,7 +53,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -80,7 +82,7 @@ namespace WebAPI.Migrations
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -139,7 +141,7 @@ namespace WebAPI.Migrations
                     b.Property<bool>("Gated")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -184,8 +186,6 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("FurnishingTypeId");
 
-                    b.HasIndex("PostedBy");
-
                     b.HasIndex("PropertyTypeId");
 
                     b.ToTable("Properties");
@@ -198,7 +198,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -220,7 +220,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LastUpdatedBy")
+                    b.Property<int>("LastUpadatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -260,12 +260,6 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Models.FurnishingType", "FurnishingType")
                         .WithMany()
                         .HasForeignKey("FurnishingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("PostedBy")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
