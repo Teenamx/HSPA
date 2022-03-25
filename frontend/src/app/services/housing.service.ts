@@ -1,10 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+
+import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import {map} from 'rxjs/operators'
+import { Observable,throwError} from 'rxjs';
+import {map,catchError} from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
+import { IkeyValuePair } from '../model/IkeyValuePair';
 import { IPropertyBase } from '../model/IPropertyBase';
 import { Property } from '../model/property';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+
 // import { IPropertyBase } from './model/IpropertyBase';
 // import { Property } from './model/property';
 
@@ -23,6 +27,14 @@ export class HousingService {
    return this.http.get<string[]>('http://localhost:18633/api/city');
  }
 
+ getPropertyTypes():Observable<IkeyValuePair[]>
+ {
+   return this.http.get<IkeyValuePair[]>(this.baseurl+'/PropertyType/list');
+ }
+ getFurnishingTypes():Observable<IkeyValuePair[]>
+ {
+   return this.http.get<IkeyValuePair[]>(this.baseurl+'/FurnishingType/list');
+ }
   getProperty(id:number)
   {
 
@@ -80,12 +92,39 @@ export class HousingService {
   }
   addProperty(property:Property)
   {
-    let newProp=[property];
+
+const httpOptions={
+headers:new HttpHeaders({
+  Authorization :'Bearer '+localStorage.getItem('token')
+})
+};
+
+
+    return this.http.post(this.baseurl + '/property/addPropertyDetails', property,httpOptions);
+
+
+ /*   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };
+ console.log(this.baseurl+'/property/add/');
+ console.log(property);
+   // return this.http.post<Property>(this.
+      //baseurl+'/property/add/',property,
+    httpOptions).
+    .pipe(
+      catchError(this.handleError('addProperty', property))
+    );
+
+    return this.http.post<Property>(this.baseurl+'/property/add/',property,
+    ).
+    .pipe(
+      catchError(this.handleError('addProperty', property))
+    ); */
+
+   /*  let newProp=[property];
     if(localStorage.getItem('newProp'))
     {
       newProp=[property,...JSON.parse(localStorage.getItem('newProp'))];
     }
-    localStorage.setItem('newProp',JSON.stringify(newProp));
+    localStorage.setItem('newProp',JSON.stringify(newProp)); */
   }
   newPropID()
   {
@@ -101,7 +140,7 @@ export class HousingService {
     }
   }
 
-  getPropertyAge(dateOfEstablishment:Date):string
+  getPropertyAge(dateOfEstablishment:string):string
   {
        const today = new Date();
         const estDate = new Date(dateOfEstablishment);
@@ -129,5 +168,20 @@ export class HousingService {
 
         return age.toString();
   }
+
+
+private handleError(errorReponse:HttpErrorResponse)
+{
+  if(errorReponse.error instanceof  ErrorEvent)
+  {
+    console.error('Client side error:',errorReponse.error.message);
+  }
+  else
+  {
+    console.error('Server side error:', errorReponse);
+  }
+  return  throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
+
+}
 
 }

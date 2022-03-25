@@ -84,7 +84,8 @@
 
                 <div class="heading">
                     <strong>Gated Community</strong>
-                    <p>{{property.gated}}</p>
+                    <p *ngIf="property.gated">Yes</p>
+                      <p *ngIf="!property.gated">No</p>
                 </div>
 
                 <div class="heading">

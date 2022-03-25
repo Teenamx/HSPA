@@ -18,7 +18,7 @@ namespace WebAPI.Data.Repo
         }
         public void AddProperty(Property property)
         {
-            throw new NotImplementedException();
+            dc.Properties.Add(property);
         }
 
         public void DeleteProperty(int id)
@@ -39,5 +39,7 @@ namespace WebAPI.Data.Repo
              .Include(p => p.City).Include(p => p.FurnishingType).Where(p => p.Id == id).FirstAsync();
             return property;
         }
+
+       
     }
 }
