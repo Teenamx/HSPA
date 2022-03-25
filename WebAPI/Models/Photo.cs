@@ -8,6 +8,8 @@ namespace WebAPI.Models
     {
 
         [Required]
+        public string publicId { get; set; }
+        [Required]
         public string ImageUrl { get; set; }
 
         public bool  IsPrimary { get; set; }

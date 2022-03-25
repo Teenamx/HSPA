@@ -13,6 +13,7 @@ import {NgxGalleryAnimation} from '@kolkov/ngx-gallery';
 export class PropertyDetailComponent implements OnInit {
 
   public propertyId: number;
+  public mainPhotoUrl:string=null;
   property=new Property();
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -51,7 +52,8 @@ export class PropertyDetailComponent implements OnInit {
         preview: true
       }
     ];
-    this.galleryImages = [
+    this.galleryImages =this.getPropertyPhotos()
+    /* [
       {
         small: 'assets/images/internal-1.jpg',
         medium: 'assets/images/internal-1.jpg',
@@ -71,9 +73,34 @@ export class PropertyDetailComponent implements OnInit {
         medium: 'assets/images/internal-5.jpg',
         big:'assets/images/internal-5.jpg'
       }
-    ];
+    ]; */
 
   }
+  getPropertyPhotos():NgxGalleryImage[]
+  {
+    const photoUrls:NgxGalleryImage[]=[];
+    for(const photo of this.property.photos)
+    {
+      if(photo.isPrimary)
+       {
+         this.mainPhotoUrl=photo.imageUrl;
+       }
+       else
+       {
+      photoUrls.push(
+        {
+          small:photo.imageUrl,
+
+          medium:photo.imageUrl,
+
+          big:photo.imageUrl
+        }
+      )
+    }
+    }
+    return photoUrls;
+  }
+
   onSelectNext()
   {
     this.propertyId+=1;

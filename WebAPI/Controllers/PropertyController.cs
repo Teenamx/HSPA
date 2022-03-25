@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpPost("add/photo/{id}")]
+        [HttpPost("add/photo/{propId}")]
         [Authorize]
         public async Task<IActionResult> addPropertyPhoto(IFormFile file, int propId)
         {
@@ -69,7 +69,19 @@ namespace WebAPI.Controllers
             var result = await photoServicecs.UploadPhotoAsync(file);
             if (result.Error != null)
                 return BadRequest(result.Error.Message);
-            return Ok(201);
+          var property = await uow.propertyRepository.GetPropertyPhotoByIdAsync(propId);
+            var photo = new Photo
+            {
+                ImageUrl = result.SecureUrl.AbsoluteUri,
+                publicId = result.PublicId
+            };
+            if (property.Photos.Count == 0)
+            {
+                photo.IsPrimary = true;
+            }
+            property.Photos.Add(photo);
+            await uow.SaveAsync();
+            return StatusCode(201);
         }
     }
 }
